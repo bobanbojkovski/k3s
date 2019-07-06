@@ -1,0 +1,6 @@
+[servers]
+192.168.xxx.xxx
+
+[agents]
+192.168.xxx.xxy
+192.168.xxx.xxx
