@@ -1,5 +1,5 @@
-# k3s
-------
+ [k3s](https://k3s.io/) - lightweight Kubernetes certified distro
+-----------------------------------------------
 
 After updating hosts ips in **hosts** file, run playbook
 
