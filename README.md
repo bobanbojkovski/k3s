@@ -1,6 +1,8 @@
  [k3s](https://k3s.io/) - lightweight Kubernetes certified distro
 -----------------------------------------------
 
+### k3s installation
+
 After updating hosts ips in **hosts** file, run playbook
 
 ```
@@ -66,6 +68,35 @@ traefik is installed by default. '--no-deploy=servicelb' & '--no-deploy=traefik'
 
 flannel is the default CNI. '--no-flannel' flag during agent installation skips installing the flannel.
 
+### k3s backup/restore sqlite key value store
+
+db files are located at /var/lib/rancher/k3s/server/db/
+```
+state.db
+state.db-shm
+state.db-wal
+```
+
+backup current state.db state
+```
+sqlite3 state.db .dump > state.db.<back_up>
+```
+
+move/delete active state.db
+```
+rm -f state.db
+```
+
+restore sqlite
+```
+sqlite3 state.db < state.db.<back_up>
+```
+could require k3s server restart
+```
+systemctl restart k3s
+```
+
+k3s comes with default state.db content, which will be used in case the state.db does not exists and the master service re/starts.
 
 [k3s documentation](https://github.com/rancher/k3s "k3s")
 
