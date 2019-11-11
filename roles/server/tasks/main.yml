@@ -3,7 +3,6 @@
   shell: >
     INSTALL_K3S_VERSION="{{ v_k3s }}"
     INSTALL_K3S_EXEC="
-    --disable-agent
     --write-kubeconfig-mode 644"
     /tmp/install.sh
 
