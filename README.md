@@ -3,7 +3,7 @@
 
 ### k3s installation
 
-After updating hosts ips in **hosts** file, run playbook
+After updating hosts ips in **hosts** file and k3s version in **group_vars/all.yml**, run playbook
 
 ```
 ansible-playbook k3s.yml -i hosts
@@ -12,6 +12,13 @@ ansible-playbook k3s.yml -i hosts
 k3s uses server (master) and agent (worker) services.
 Default server installation configures agent, that allows pods to run on master node as well;
 master node does not have defined taints.
+
+```
+kubectl get nodes
+NAME          STATUS   ROLES    AGE     VERSION
+km1.hack.me   Ready    master   3m25s   v1.14.3-k3s.1
+ks1.hack.me   Ready    worker   3m15s   v1.14.3-k3s.1
+```
 
 ```
 kubectl describe node <master_node>
@@ -34,8 +41,9 @@ Taints:             <none>
 
 Optionally, flag '--disable-agent' skips installing the agent on the master node.
 
-Provided sample installs server and agents on two nodes.
-Master node runs server and agent services separately and worker node runs only agent service.
+To separate server and agent services on master node, update the **roles/server/tasks/main.yml** file adding '--disable-agent' flag then in **hosts** file add the server ip in agents list.
+
+In this use case the master role in roles column is marked as worker, instead of master.
 
 ```
 kubectl get nodes
@@ -44,10 +52,8 @@ NAME                STATUS   ROLES    AGE   VERSION
 <worker_hostname>   Ready    worker   17s   v1.14.3-k3s.1
 ```
 
-In this case the master role in roles column is marked as worker, instead of master.
-
 ```
-kubectl describe node km1.hack.me
+kubectl describe node <master_node>
 Roles:              worker
 Labels:             beta.kubernetes.io/arch=amd64
                     beta.kubernetes.io/os=linux
