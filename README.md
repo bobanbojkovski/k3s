@@ -3,10 +3,11 @@
 
 ### k3s installation
 
-After updating hosts ips in **hosts** file and k3s version in **group_vars/all.yml**, run playbook
+After updating hosts ips in **hosts** file and k3s version (v_k3s) in **group_vars/all.yml**, run playbook to install/uninstall k3s cluster.
 
 ```
-ansible-playbook k3s.yml -i hosts
+ansible-playbook k3s.yml -i hosts -e "run_option=install" or ansible-playbook k3s.yml -i hosts
+ansible-playbook k3s.yml -i hosts -e "run_option=uninstall"
 ```
 
 k3s uses server (master) and agent (worker) services.
@@ -15,9 +16,9 @@ master node does not have defined taints.
 
 ```
 kubectl get nodes
-NAME          STATUS   ROLES    AGE     VERSION
-km1.hack.me   Ready    master   3m25s   v1.14.3-k3s.1
-ks1.hack.me   Ready    worker   3m15s   v1.14.3-k3s.1
+NAME                STATUS   ROLES    AGE     VERSION
+<master_hostname>   Ready    master   3m25s   v1.14.3-k3s.1
+<worker_hostname>   Ready    worker   3m15s   v1.14.3-k3s.1
 ```
 
 ```
@@ -41,7 +42,7 @@ Taints:             <none>
 
 Optionally, flag '--disable-agent' skips installing the agent on the master node.
 
-To separate server and agent services on master node, update the **roles/server/tasks/main.yml** file adding '--disable-agent' flag then in **hosts** file add the server ip in agents list.
+To separate server and agent services on master node, update the **roles/server/tasks/install.yml** file adding '--disable-agent' flag then in **hosts** file add the server ip in agents list.
 
 In this use case the master role in roles column is marked as worker, instead of master.
 
