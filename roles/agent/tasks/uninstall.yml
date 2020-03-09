@@ -1,0 +1,11 @@
+---
+- name: Check k3s-agent-uninstall.sh file exists
+  stat:
+    path: /usr/local/bin/k3s-agent-uninstall.sh
+  register: k3s_agent_file_check
+
+- name: Uninstall k3s agent
+  shell: >
+    /usr/local/bin/k3s-agent-uninstall.sh
+  when: k3s_agent_file_check.stat.exists == True
+

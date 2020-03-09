@@ -1,3 +1,4 @@
+---
 v_k3s: v0.6.1
 ansible_user: root
 server_ip: "{{ hostvars[groups['servers'][0]]['ansible_default_ipv4']['address'] }}"

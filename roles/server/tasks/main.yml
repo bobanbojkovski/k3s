@@ -1,22 +1,8 @@
 ---
+- name: Uninstall k3s server
+  include: uninstall.yml
+  when: run_option is defined and run_option == "uninstall"
+
 - name: Install k3s server
-  shell: >
-    INSTALL_K3S_VERSION="{{ v_k3s }}"
-    INSTALL_K3S_EXEC="
-    --write-kubeconfig-mode 644"
-    /tmp/install.sh
-
-  register: k3s_install
-  when: "k3s_installation_check.stdout < v_k3s or k3s_file_check.results[0].stat.exists == False"
-
-- debug: var=k3s_install.stdout_lines
-
-- name: Get node token
-  slurp:
-    src: /var/lib/rancher/k3s/server/node-token
-  register: node_token_file
-  
-- name: Decode node token and store as fact
-  set_fact: node_token="{{ node_token_file.content | b64decode | replace('\n', '') }}"
-
-- debug: var=node_token
+  include: install.yml
+  when: run_option is not defined or run_option == "install"

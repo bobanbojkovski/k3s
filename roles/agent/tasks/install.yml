@@ -1,0 +1,12 @@
+---
+- name: Install k3s agent
+  shell: >
+    INSTALL_K3S_VERSION="{{ v_k3s }}"
+    K3S_URL=https://"{{ server_ip }}":6443
+    K3S_TOKEN="{{ node_token }}"
+    /tmp/install.sh
+
+  register: k3s_install
+  when: "k3s_installation_check.stdout < v_k3s or k3s_file_check.results[1].stat.exists == False"
+
+- debug: var=k3s_install.stdout_lines

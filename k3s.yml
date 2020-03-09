@@ -1,15 +1,15 @@
 ---
-- name: Download k3 installation script
+- name: k3s common
   hosts: servers, agents
   roles:
     - { role: common }
 
-- name: Install k3s server
+- name: k3s server
   hosts: servers
   roles:
     - { role: server }
 
-- name: Install k3s agent
+- name: k3s agent
   hosts: agents
   roles:
     - { role: agent }

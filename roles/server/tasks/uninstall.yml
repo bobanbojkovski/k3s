@@ -1,0 +1,10 @@
+---
+- name: Check k3s-uninstall.sh file exists
+  stat:
+    path: /usr/local/bin/k3s-uninstall.sh
+  register: k3s_server_file_check
+
+- name: Uninstall k3s server
+  shell: >
+    /usr/local/bin/k3s-uninstall.sh
+  when: k3s_server_file_check.stat.exists == True

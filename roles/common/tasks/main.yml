@@ -5,7 +5,7 @@
 
 - debug: var=k3s_installation_check.stdout_lines
 
-- name: Check if k3s.service file exists
+- name: Check if k3s service files exist
   stat:
     path: /etc/systemd/system/{{ item }}
   with_items: "{{ k3s_service_files }}"
@@ -14,8 +14,5 @@
 - debug: var=k3s_file_check
 
 - name: Download k3s install script
-  get_url: 
-    url: https://get.k3s.io
-    dest: /tmp
-    mode: a+x
-    force: yes
+  include: download.yml
+  when: run_option is not defined or run_option == "install"
