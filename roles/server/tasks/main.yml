@@ -1,8 +1,8 @@
 ---
 - name: Uninstall k3s server
-  include: uninstall.yml
+  include_tasks: uninstall.yml
   when: run_option is defined and run_option == "uninstall"
 
 - name: Install k3s server
-  include: install.yml
+  include_tasks: install.yml
   when: run_option is not defined or run_option == "install"

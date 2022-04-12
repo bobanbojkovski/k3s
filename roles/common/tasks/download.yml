@@ -2,6 +2,6 @@
 - name: Download k3s install script
   get_url: 
     url: https://get.k3s.io
-    dest: /tmp
+    dest: /tmp/install.sh
     mode: a+x
     force: yes
